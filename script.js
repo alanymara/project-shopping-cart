@@ -53,6 +53,10 @@ const products = async (productName) => { // Criar const para chamar funcões
   });
 };
 
+const addItemCart = async (item) => {
+
+};
+
 window.onload = async () => { 
     await products('computador'); // chamar função no onload
  };
