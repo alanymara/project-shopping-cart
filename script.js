@@ -19,7 +19,10 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  
+  const button = section
+    .appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+    button.addEventListener('click', funcaoParaMandarParaOCarrinho);
   const newItem = document.getElementsByClassName('items')[0];
   newItem.appendChild(section);
   return section;
@@ -41,8 +44,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
-const products = async () => { // Criar const para chamar funcões
-  const arrayProducts = await fetchProducts();
+const products = async (productName) => { // Criar const para chamar funcões
+  const { results: arrayProducts } = await fetchProducts(productName);
   arrayProducts.forEach((product) => {
     const { id, title, thumbnail } = product;
     const productObj = { sku: id, name: title, image: thumbnail };
@@ -51,5 +54,5 @@ const products = async () => { // Criar const para chamar funcões
 };
 
 window.onload = async () => { 
-    await products(); // chamar função no onload
+    await products('computador'); // chamar função no onload
  };
