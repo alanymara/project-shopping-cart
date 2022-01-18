@@ -3,11 +3,10 @@ const fetchItem = async (itemId) => {
 
   try {
     const response = await fetch(url);
-    const productJason = await response.json();
-    const data = await productJason;
+    const data = response.json();
     return data;
   } catch (error) {
-    return error;
+    return `${error}`;
   }
 };
 
