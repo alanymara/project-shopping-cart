@@ -13,7 +13,7 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
+  return event.target.remove(); //  Função para remover o item selecionado
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
