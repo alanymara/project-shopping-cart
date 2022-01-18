@@ -46,10 +46,10 @@ function createProductItemElement({ sku, name, image }) {
   newItem.appendChild(section);
   return section;
 }
-
+/* 
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
-}
+} */
 
 const products = async (productName) => { // Criar const para chamar funcões
   const { results: arrayProducts } = await fetchProducts(productName);
