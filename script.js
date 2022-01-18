@@ -19,10 +19,10 @@ function createProductItemElement({ sku, name, image }) {
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  
-  const button = section
+  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  /* const button = section
     .appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-    button.addEventListener('click', funcaoParaMandarParaOCarrinho);
+    button.addEventListener('click', funcaoParaMandarParaOCarrinho); */
   const newItem = document.getElementsByClassName('items')[0];
   newItem.appendChild(section);
   return section;
