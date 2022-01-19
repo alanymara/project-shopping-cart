@@ -1,3 +1,39 @@
+const clearCart = () => {
+  const olCart = document.querySelector('.cart__items');
+  olCart.innerHTML = '';
+};
+/* const totalPrice = (price) => {
+  const h3Price = document.querySelector('#total-price');
+  let total = 0;
+  total += price;
+  h3Price.innerText = `Subtotal: ${total}`;
+}; */
+
+function cartItemClickListener(event) {
+  return event.target.remove(); //  remove() Função para remover o item selecionado
+}
+
+function createCartItemElement({ sku, name, salePrice }) {
+  const li = document.createElement('li');
+  li.className = 'cart__item';
+  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
+  li.addEventListener('click', cartItemClickListener);
+  const button = document.querySelector('.empty-cart');
+  button.addEventListener('click', clearCart);
+  return li;
+}
+// Função de Click
+ const addClick = async (event) => {
+  const elementId = event.target.parentNode.firstChild.innerText;
+  const { id, title, price } = await fetchItem(elementId);
+  const liProduct = createCartItemElement({ sku: id, name: title, salePrice: price });
+  const olList = document.querySelector('.cart__items');
+  olList.appendChild(liProduct);
+ /*  let acumulador;
+  acumulador += price; */
+  totalPrice(price);
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -11,26 +47,6 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
-
-function cartItemClickListener(event) {
-  return event.target.remove(); //  Função para remover o item selecionado
-}
-
-function createCartItemElement({ sku, name, salePrice }) {
-  const li = document.createElement('li');
-  li.className = 'cart__item';
-  li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
-  li.addEventListener('click', cartItemClickListener);
-  return li;
-}
-// Função de Click
- const addClick = async (event) => {
-  const elementId = event.target.parentNode.firstChild.innerText;
-  const { id, title, price } = await fetchItem(elementId);
-  const liProduct = createCartItemElement({ sku: id, name: title, salePrice: price });
-  const olList = document.querySelector('.cart__items');
-  olList.appendChild(liProduct);
-};
 
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
@@ -61,5 +77,7 @@ const products = async (productName) => { // Criar const para chamar funcões
 };
 
 window.onload = async () => { 
-    await products('computador'); // chamar função no onload
+    await products('computador');
+    // totalPrice();
+     // chamar função no onload
  };
