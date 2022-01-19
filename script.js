@@ -1,3 +1,4 @@
+// Função para aparecer o elemento 'carregando...' na tela enquanto recebo os itens do retorno da Fetch
 const loadingFetch = () => {
   const div = document.createElement('div');
   div.className = 'loading';
@@ -6,10 +7,13 @@ const loadingFetch = () => {
   div.innerText = 'carregando...';
 };
 
+// Função para remover o elemento 'carregando...' na tela depois que recebo os itens do retorno da Fetch
 const loadingFetchRemove = () => {
   const div = document.querySelector('.loading');
   div.remove();
 };
+
+// Função para gerar o preço total dos itens que estão no carrinho de compra
 const totalPrice = () => {
   const h3Price = document.querySelector('.total-price');
   const ol = document.querySelectorAll('.cart__item');
@@ -22,29 +26,33 @@ const totalPrice = () => {
   h3Price.innerText = total;
 };
 
+// Função para limpar a lista de itens no carrinho
 const clearCart = () => {
   const olCart = document.querySelector('.cart__items');
   olCart.innerText = '';
   totalPrice();
 };
+
+// Recuperando o botão do DOM e adicionando evento de click para chamar a função de limpar o carrinho
 const button = document.querySelector('.empty-cart');
 button.addEventListener('click', clearCart);
 
+// Função para tirar item do carrinho ao clicar nele e chamando a função totalPrice para atualizar o preço total
 function cartItemClickListener(event) {
-  event.target.remove(); //  remove() Função para remover o item selecionado
+  event.target.remove();
   totalPrice();
 }
 
+// Função para criar li com item clicado
 function createCartItemElement({ sku, name, salePrice }) {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  /* const button = document.querySelector('.empty-cart');
-  button.addEventListener('click', clearCart); */
   return li;
 }
-// Função de Click
+
+// Função de click do botão 'adicionar ao carrinho' para add itens na lista do carrinho, chamando função totalPrice para ser atualizado o preço
  const addClick = async (event) => {
   const elementId = event.target.parentNode.firstChild.innerText;
   const { id, title, price } = await fetchItem(elementId);
@@ -54,6 +62,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   totalPrice();
 };
 
+// Função para criar imagem de cada item
 function createProductImageElement(imageSource) {
   const imagem = imageSource.replace('I.jpg', 'W.webp');
   const img = document.createElement('img');
@@ -69,10 +78,10 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
+// Função para criar os elemento de cada item
 function createProductItemElement({ sku, name, image }) {
   const section = document.createElement('section');
   section.className = 'item';
-
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
@@ -83,12 +92,13 @@ function createProductItemElement({ sku, name, image }) {
   newItem.appendChild(section);
   return section;
 }
-/* 
-function getSkuFromProductItem(item) {
+
+/* function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 } */
 
-const products = async (productName) => { // Criar const para chamar funcões
+// Função para filtrar informações da chave results e chm
+const productsResults = async (productName) => { // Criar const para chamar funcões
   const { results: arrayProducts } = await fetchProducts(productName);
   arrayProducts.forEach((product) => {
     const { id, title, thumbnail } = product;
@@ -100,7 +110,7 @@ const products = async (productName) => { // Criar const para chamar funcões
 window.onload = async () => { 
     loadingFetch();
     totalPrice();
-    await products('computador');
+    await productsResults('computador');
     loadingFetchRemove();
      // chamar função no onload
  };
