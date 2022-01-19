@@ -1,10 +1,29 @@
+const loadingFetch = () => {
+  const div = document.createElement('div');
+  div.className = 'loading';
+  const body = document.querySelector('body');
+  body.appendChild(div);
+  div.innerText = 'carregando...';
+};
+loadingFetch();
 const clearCart = () => {
   const olCart = document.querySelector('.cart__items');
-  olCart.innerHTML = '';
+  olCart.innerText = '';
+};
+const button = document.querySelector('.empty-cart');
+button.addEventListener('click', clearCart);
+
+const loadingFetchRemove = () => {
+  const div = document.querySelector('.loading');
+  div.remove();
 };
 /* const totalPrice = (price) => {
   const h3Price = document.querySelector('#total-price');
+  const ol = document.querySelector('.cart__items');
   let total = 0;
+  for (let index = 0; index < ol.childElementCount; index++) {
+    const element = array[index];
+  }
   total += price;
   h3Price.innerText = `Subtotal: ${total}`;
 }; */
@@ -18,8 +37,8 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  const button = document.querySelector('.empty-cart');
-  button.addEventListener('click', clearCart);
+  /* const button = document.querySelector('.empty-cart');
+  button.addEventListener('click', clearCart); */
   return li;
 }
 // Função de Click
@@ -31,13 +50,14 @@ function createCartItemElement({ sku, name, salePrice }) {
   olList.appendChild(liProduct);
  /*  let acumulador;
   acumulador += price; */
-  totalPrice(price);
+  // totalPrice(price);
 };
 
 function createProductImageElement(imageSource) {
+  const imagem = imageSource.replace('I.jpg', 'W.webp');
   const img = document.createElement('img');
   img.className = 'item__image';
-  img.src = imageSource;
+  img.src = imagem;
   return img;
 }
 
@@ -78,6 +98,7 @@ const products = async (productName) => { // Criar const para chamar funcões
 
 window.onload = async () => { 
     await products('computador');
-    // totalPrice();
+    loadingFetchRemove();
+    /* totalPrice(0); */
      // chamar função no onload
  };
