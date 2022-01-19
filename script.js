@@ -1,35 +1,38 @@
 const loadingFetch = () => {
   const div = document.createElement('div');
   div.className = 'loading';
-  const body = document.querySelector('body');
-  body.appendChild(div);
+  const section = document.querySelector('.items');
+  section.appendChild(div);
   div.innerText = 'carregando...';
 };
-loadingFetch();
-const clearCart = () => {
-  const olCart = document.querySelector('.cart__items');
-  olCart.innerText = '';
-};
-const button = document.querySelector('.empty-cart');
-button.addEventListener('click', clearCart);
 
 const loadingFetchRemove = () => {
   const div = document.querySelector('.loading');
   div.remove();
 };
-/* const totalPrice = (price) => {
-  const h3Price = document.querySelector('#total-price');
-  const ol = document.querySelector('.cart__items');
+const totalPrice = () => {
+  const h3Price = document.querySelector('.total-price');
+  const ol = document.querySelectorAll('.cart__item');
   let total = 0;
-  for (let index = 0; index < ol.childElementCount; index++) {
-    const element = array[index];
+  for (let index = 0; index < ol.length; index += 1) {
+    const itemProduct = ol[index];
+    const itemPrice = itemProduct.innerText.split('$')[1];
+    total += +itemPrice;
   }
-  total += price;
-  h3Price.innerText = `Subtotal: ${total}`;
-}; */
+  h3Price.innerText = total;
+};
+
+const clearCart = () => {
+  const olCart = document.querySelector('.cart__items');
+  olCart.innerText = '';
+  totalPrice();
+};
+const button = document.querySelector('.empty-cart');
+button.addEventListener('click', clearCart);
 
 function cartItemClickListener(event) {
-  return event.target.remove(); //  remove() Função para remover o item selecionado
+  event.target.remove(); //  remove() Função para remover o item selecionado
+  totalPrice();
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -48,9 +51,7 @@ function createCartItemElement({ sku, name, salePrice }) {
   const liProduct = createCartItemElement({ sku: id, name: title, salePrice: price });
   const olList = document.querySelector('.cart__items');
   olList.appendChild(liProduct);
- /*  let acumulador;
-  acumulador += price; */
-  // totalPrice(price);
+  totalPrice();
 };
 
 function createProductImageElement(imageSource) {
@@ -97,8 +98,9 @@ const products = async (productName) => { // Criar const para chamar funcões
 };
 
 window.onload = async () => { 
+    loadingFetch();
+    totalPrice();
     await products('computador');
     loadingFetchRemove();
-    /* totalPrice(0); */
      // chamar função no onload
  };
