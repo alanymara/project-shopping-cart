@@ -1,3 +1,21 @@
+const olCartItems = document.querySelector('.cart__items'); // recuperando ol do DOM
+const button = document.querySelector('.empty-cart');
+
+const saveLocalStorage = () => {
+  const liItems = olCartItems.children;
+  console.log(liItems);
+  const arrayItens = [];
+  for (let index = 0; index < liItems.length; index += 1) {
+    const conteudoLi = liItems[index].innerText;
+    arrayItens.push(conteudoLi);
+  }
+  const productsObjects = { 
+    arrayItens,
+  };
+  console.log(arrayItens);
+  const productsString = JSON.stringify(productsObjects);
+  saveCartItems(productsString);
+};
 // Função para aparecer o elemento 'carregando...' na tela enquanto recebo os itens do retorno da Fetch
 const loadingFetch = () => {
   const div = document.createElement('div');
@@ -20,27 +38,28 @@ const totalPrice = () => {
   let total = 0;
   for (let index = 0; index < ol.length; index += 1) {
     const itemProduct = ol[index];
-    const itemPrice = itemProduct.innerText.split('$')[1];
-    total += +itemPrice;
+    const itemPrice = itemProduct.innerText.split('$')[1]; // Utilizei o split para capturar dentro da string 
+    total += +itemPrice; // + operador Uniário para transformar string em numero https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators
   }
   h3Price.innerText = total;
 };
 
 // Função para limpar a lista de itens no carrinho
 const clearCart = () => {
-  const olCart = document.querySelector('.cart__items');
-  olCart.innerText = '';
+  olCartItems.innerText = '';
   totalPrice();
+  saveLocalStorage();
 };
 
 // Recuperando o botão do DOM e adicionando evento de click para chamar a função de limpar o carrinho
-const button = document.querySelector('.empty-cart');
+
 button.addEventListener('click', clearCart);
 
 // Função para tirar item do carrinho ao clicar nele e chamando a função totalPrice para atualizar o preço total
 function cartItemClickListener(event) {
   event.target.remove();
   totalPrice();
+  saveLocalStorage();
 }
 
 // Função para criar li com item clicado
@@ -57,9 +76,9 @@ function createCartItemElement({ sku, name, salePrice }) {
   const elementId = event.target.parentNode.firstChild.innerText;
   const { id, title, price } = await fetchItem(elementId);
   const liProduct = createCartItemElement({ sku: id, name: title, salePrice: price });
-  const olList = document.querySelector('.cart__items');
-  olList.appendChild(liProduct);
+  olCartItems.appendChild(liProduct);
   totalPrice();
+  saveLocalStorage();
 };
 
 // Função para criar imagem de cada item
@@ -105,12 +124,24 @@ const productsResults = async (productName) => { // Criar const para chamar func
     const productObj = { sku: id, name: title, image: thumbnail };
     createProductItemElement(productObj);
   });
+  loadingFetchRemove();
 };
 
+const getLocalStorage = () => {
+  const itemsLocalStorage = getSavedCartItems();
+  const { arrayItens } = JSON.parse(itemsLocalStorage);
+  arrayItens.forEach((itens) => {
+    const li = document.createElement('li');
+    li.className = 'cart__item';
+    li.innerText = itens;
+    olCartItems.appendChild(li);
+    li.addEventListener('click', cartItemClickListener);
+  });
+  button.addEventListener('click', clearCart);
+  totalPrice();
+}; 
 window.onload = async () => { 
     loadingFetch();
-    totalPrice();
     await productsResults('computador');
-    loadingFetchRemove();
-     // chamar função no onload
- };
+    getLocalStorage();
+};
