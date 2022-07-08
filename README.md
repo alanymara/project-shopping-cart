@@ -13,7 +13,7 @@ In this project, a fully dynamic shopping cart will be developed, consuming data
 <details>
   <summary markdown="span"><strong>:brazil: Português</strong></summary><br />
 
-Projeto de JavaScript/ES6 e Jest desenvolvido por ([Alany Fernandes](https://www.linkedin.com/in/alanyfernandes/)) no Módulo Fundamentos do Desenvolvimento Web do curso da Trybe. Fomos aprovadas com 100% dos requisitos obrigatórios e opcionais atingidos.
+Projeto de JavaScript/ES6 e Jest desenvolvido por ([Alany Fernandes](https://www.linkedin.com/in/alanyfernandes/)) no Módulo Fundamentos do curso de Desenvolvimento Web da Trybe. Fui aprovada com 100% dos requisitos obrigatórios e opcionais atingidos.
 <br />
 Nesse projeto será desenvolvido um carrinho de compras totalmente dinâmico, consumindo dados diretamente de uma API (Application Programming Interface), uma API é um ponto de contato na internet com determinado serviço. Através de requisições HTTP a essa API é possível interagir com ela da forma como quem a criou planejou. Neste projeto usaremos a API do Mercado Livre para buscarmos produtos à venda.
 <br />
